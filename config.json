@@ -1,5 +1,5 @@
 {
-  "default_model": "gemma-4-26b-a4b-it-4bit",
+  "default_model": "qwen3.8-27b",
   "validator_salt": "",
   "key_timezone": "Asia/Dhaka",
   "upstream_timeout": 300,
@@ -10,11 +10,9 @@
   "providers": [
     {
       "name": "server-1",
-      "url": "http://47.108.57.223:8000",
+      "url": "http://91.134.45.78:8000",
       "models": [
-        "Qwen3.6-35B-A3B-4bit",
-        "gemma-3-12b-it-4bit",
-        "gemma-4-26b-a4b-it-4bit"
+        "qwen3.8-27b"
       ]
     }
   ]
