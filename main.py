@@ -6,7 +6,8 @@ import requests
 from flask import Flask, request, Response, stream_with_context, jsonify
 from validator import validate_key
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+import sys
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", stream=sys.stdout)
 log = logging.getLogger("ai-backend")
 
 app = Flask(__name__)
