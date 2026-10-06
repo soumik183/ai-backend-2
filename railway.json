@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "gunicorn main:app --bind 0.0.0.0:$PORT --workers 2 --threads 8 --timeout 300 --graceful-timeout 30",
+    "healthcheckPath": "/health"
+  }
+}
