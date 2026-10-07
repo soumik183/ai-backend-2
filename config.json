@@ -20,7 +20,8 @@
       "url": "http://36.150.108.56:8080",
       "models": [
         "Q3.6-35B-A3B-Unc-Thi"
-      ]
+      ],
+      "direct_only": true
     }
   ]
 }

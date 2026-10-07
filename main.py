@@ -77,6 +77,7 @@ def load_providers():
             "name": p.get("name", p["url"]),
             "url": p["url"].rstrip("/"),
             "models": list(p.get("models", [])),
+            "direct_only": bool(p.get("direct_only")),
         })
     return out
 
@@ -189,6 +190,10 @@ def health():
     report = []
     any_up = False
     for p in PROVIDERS:
+        if p.get("direct_only"):
+            any_up = True
+            report.append({"name": p["name"], "up": "direct-only", "note": "use provider URL directly"})
+            continue
         try:
             r = requests.get(f"{p['url']}/v1/models", timeout=3)
             up = r.status_code < 500
@@ -249,6 +254,9 @@ def failover_post(path, body, stream):
 
     errors = []
     for p in candidates:
+        if p.get("direct_only"):
+            errors.append(f"{p['name']}: direct-only (use its own URL, not this gateway)")
+            continue
         try:
             resp = upstream_request(p["url"], "POST", path, body=body, stream=stream)
             if stream and resp.status_code == 200:
@@ -328,6 +336,17 @@ def models():
     seen = set()
     provider_status = []
     for p in PROVIDERS:
+        if p.get("direct_only"):
+            provider_status.append({"name": p["name"], "up": "direct-only", "models": len(p["models"])})
+            for mid in p["models"]:
+                if mid in seen:
+                    continue
+                seen.add(mid)
+                merged.append({
+                    "id": mid, "object": "model", "owned_by": p["name"],
+                    "provider": p["name"], "status": "direct-only — use provider URL directly",
+                })
+            continue
         try:
             r = requests.get(f"{p['url']}/v1/models", timeout=5)
             data = r.json()
