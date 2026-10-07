@@ -1,5 +1,5 @@
 {
-  "default_model": "qwen3.8-27b",
+  "default_model": "models\\Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-IQ2_M.gguf",
   "validator_salt": "",
   "key_timezone": "Asia/Dhaka",
   "upstream_timeout": 300,
@@ -9,10 +9,17 @@
   "port": 8000,
   "providers": [
     {
-      "name": "server-1",
-      "url": "http://91.134.45.78:8000",
+      "name": "server-23",
+      "url": "http://170.106.196.117:8080",
       "models": [
-        "qwen3.8-27b"
+        "models\\Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-IQ2_M.gguf"
+      ]
+    },
+    {
+      "name": "server-24",
+      "url": "http://36.150.108.56:8080",
+      "models": [
+        "Q3.6-35B-A3B-Unc-Thi"
       ]
     }
   ]
