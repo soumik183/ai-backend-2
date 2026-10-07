@@ -21,13 +21,6 @@
       "models": [
         "Q3.6-35B-A3B-Unc-Thi"
       ]
-    },
-    {
-      "name": "server-3",
-      "url": "http://170.106.196.117:8080",
-      "models": [
-        "models\\\\Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-IQ2_M.gguf"
-      ]
     }
   ]
 }
