@@ -129,10 +129,24 @@ def validate_key(token: str, expected_salt: str = None, tz: str = 'Asia/Dhaka'):
     if not timed:
         return False, 'key has no date/time validity', None
 
+    has_date = any(f.get('type') == 'daterange' for f in fields)
+
     try:
         now = datetime.now(ZoneInfo(tz))
     except Exception:
         now = datetime.now()
+
+    # Smart rule: if the key has NO date-range, it is only valid on the day
+    # it was created (payload "ts"). After that day ends it is dead forever —
+    # it will NOT come back tomorrow in the same time window.
+    if not has_date:
+        ts = payload.get('ts')
+        try:
+            created = datetime.fromtimestamp(int(ts) / 1000, tz=now.tzinfo).date()
+            if created != now.date():
+                return False, f'key expired (created {created}, not valid after that day)', payload
+        except (TypeError, ValueError, OSError, OverflowError):
+            return False, 'key has no creation timestamp', payload
 
     for f in fields:
         ok, reason = check_field(f, now)
